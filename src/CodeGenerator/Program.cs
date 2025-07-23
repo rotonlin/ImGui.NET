@@ -280,6 +280,7 @@ namespace CodeGenerator
                 writer.Using("System");
                 writer.Using("System.Numerics");
                 writer.Using("System.Runtime.InteropServices");
+                writer.Using("System.Runtime.CompilerServices");
                 if (referencesImGui)
                 {
                     writer.Using("ImGuiNET");
@@ -331,15 +332,18 @@ namespace CodeGenerator
                             ? exportedName.Substring(0, exportedName.IndexOf("_nonUDT"))
                             : exportedName;
 
-                        if (isUdtVariant)
-                        {
-                            writer.WriteLine($"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{exportedName}\")]");
+                        //if (isUdtVariant)
+                        //{
+                        //    writer.WriteLine($"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{exportedName}\")]");
 
-                        }
-                        else
-                        {
-                            writer.WriteLine($"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl)]");
-                        }
+                        //}
+                        //else
+                        //{
+                        //    writer.WriteLine($"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl)]");
+                        //}
+                        //[MethodImpl(MethodImplOptions.InternalCall)]
+                        writer.WriteLine($"[MethodImplAttribute(MethodImplOptions.InternalCall)]");
+
                         writer.WriteLine($"public static extern {ret} {methodName}({parameters});");
                     }
                 }
